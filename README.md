@@ -1,12 +1,14 @@
-# llap (low-level AIMEE processor)
-llap is a collection of analysis passes for LLVM that generate JSON output for use in HECTOR ML models. llap can also optionally label data from an input JSON file. This component is the "narrow waist" for the HECTOR system built as part of DARPA's AIMEE program. Currently, the following CWE-specific processing pipelines are supported:
+# llap (low-level analysis processor)
+llap is a collection of analysis passes for LLVM that generate enriched program dependency graphs (in JSON format) from program source code for use in Vulchecker ML models. llap is used for both processing source code for querying models and for creating training datasets by optionally supplying label data from an input JSON file. This component is the "narrow waist" for the Vulchecker (previously called HECTOR) system. Currently, the following CWE-specific processing pipelines are supported:
 
  1. CWE-121 (CWE-122): Stack-based (heap-based) Overflow 
  2. CWE-190 (CWE-191): Integer Overflow (Integer Underflow)
  3. CWE-415: Double-Free
  4. CWE-416: Use-After-Free
 
-Author: Michael D. Brown (GTRI)
+While this tool was originally developed as part of Vulchecker, it can be readily adapted to create new pipelines for other types of AI/ML modeling. For example, the pipelines above were adapted to a mathematics recovery and lifting project called CORBIN. The provided pipelines are intended to provide examples for other users to extend. Ultimately the big difference between applications is altering the code provided to apply labels for your specific use case. For Vulchecker, labels are provided for vulnerability root cause and manifestation points, which is specific to this use case.
+
+Author: Michael D. Brown
 
 ## Installation
 llap analysis passes are designed to be run as LLVM middle-end optimizer passes using `opt`. Pipeline source code is most easily built in conjunction with LLVM's source. Fortunately LLVM is deisgned to make this rather painless. To further simplify this process, an Ubuntu VM that can be used to build develop and run llap is available.
@@ -15,7 +17,7 @@ llap analysis passes are designed to be run as LLVM middle-end optimizer passes 
 
  1. Import the VM into your hypervisor of choice and run it.
  2. Login with the credentials provided with VM.
- 3. Switch to the `~/hector/llap/` directory (this repo).
+ 3. Switch to the `~/$user/llap/` directory (this repo).
  4. Execute `git pull` to fetch the latest version of this code.
  5. Switch to the `src` directory.
  6. Copy the contents (`HECTOR_XXX` directories and CMakeLists.txt) to the `~/llvm-project/llvm/lib/Transforms/` directory.
